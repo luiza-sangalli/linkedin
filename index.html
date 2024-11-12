@@ -3,10 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu Site no GitHub Pages</title>
+  <title>Gerador de Link de Busca de Vagas no LinkedIn</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #0073b1;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #005582;
+    }
+    #result {
+      display: none;
+      margin-top: 20px;
+    }
+    #generatedLink {
+      color: #0073b1;
+      text-decoration: none;
+    }
+    #generatedLink:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <h1>Bem-vindo ao meu site!</h1>
-  <p>Este site está hospedado no GitHub Pages.</p>
+  <div class="container">
+    <h1>Gerador de Link de Busca de Vagas no LinkedIn</h1>
+    
+    <label for="position">Cargo desejado:</label>
+    <input type="text" id="position" placeholder="Exemplo: Product Manager">
+    
+    <label for="location">Localização (opcional):</label>
+    <input type="text" id="location" placeholder="Exemplo: Brasil">
+    
+    <button onclick="generateLink()">Gerar Link</button>
+    
+    <div id="result">
+      <p>Seu link de busca:</p>
+      <a id="generatedLink" href="#" target="_blank">Clique aqui para acessar sua busca</a>
+    </div>
+  </div>
+
+  <script>
+    function generateLink() {
+      // Obter os valores dos inputs
+      const position = document.getElementById('position').value.trim();
+      const location = document.getElementById('location').value.trim();
+
+      // Base da URL do LinkedIn para busca de conteúdo
+      let baseURL = "https://www.linkedin.com/search/results/content/?keywords=";
+
+      // Verificar se o cargo foi preenchido
+      if (position) {
+        baseURL += encodeURIComponent(`"${position}" AND (#hiring OR "estamos contratando" OR "vaga aberta" OR oportunidade)`);
+      }
+
+      // Adicionar localização, se fornecida
+      if (location) {
+        baseURL += encodeURIComponent(` AND ${location}`);
+      }
+
+      // Adicionar parâmetros para ordenar por data
+      baseURL += "&origin=FACETED_SEARCH&sortBy=%22date_posted%22";
+
+      // Exibir o link gerado
+      const resultDiv = document.getElementById('result');
+      const generatedLink = document.getElementById('generatedLink');
+
+      generatedLink.href = baseURL;
+      resultDiv.style.display = "block";
+    }
+  </script>
 </body>
 </html>
+
